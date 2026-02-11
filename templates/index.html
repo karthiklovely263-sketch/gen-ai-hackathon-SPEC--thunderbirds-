@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Sign Board Designer - Create Print-Ready Designs</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Montserrat:wght@400;500;600;700;800;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <h1 class="logo">
+                        <span class="logo-icon">🎯</span>
+                        SignBoard Pro
+                    </h1>
+                    <p class="tagline">Professional Commercial Design Studio</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-secondary" id="resetBtn">↻ Reset</button>
+                    <button class="btn btn-primary" id="downloadBtn">⬇ Export PNG</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- Left Sidebar - Design Controls -->
+            <aside class="sidebar">
+                <div class="sidebar-content">
+                    
+                    <!-- Template Selection -->
+                    <div class="control-section">
+                        <h3 class="section-title">
+                            <span class="section-icon">🎨</span>
+                            Design Style
+                        </h3>
+                        <div id="templatesList" class="templates-grid">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Business Setup -->
+                    <div class="control-section">
+                        <h3 class="section-title">
+                            <span class="section-icon">📋</span>
+                            Business Setup
+                        </h3>
+                        <div class="form-group">
+                            <label for="shopName">Shop Name</label>
+                            <input 
+                                type="text" 
+                                id="shopName" 
+                                placeholder="Enter shop name"
+                                maxlength="40"
+                                class="form-input"
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label for="businessType">Business Type</label>
+                            <select id="businessType" class="form-select">
+                                <option value="">Select business type</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-generate" id="generateBtn">
+                            🚀 Generate Design
+                        </button>
+                    </div>
+
+                    <!-- Text Customization -->
+                    <div class="control-section">
+                        <h3 class="section-title">
+                            <span class="section-icon">✏️</span>
+                            Text Customization
+                        </h3>
+                        
+                        <div class="form-group">
+                            <label>Main Title Font Size</label>
+                            <div class="input-range-wrapper">
+                                <input 
+                                    type="range" 
+                                    id="mainFontSize" 
+                                    min="40" 
+                                    max="100" 
+                                    value="72" 
+                                    class="range-slider"
+                                    disabled
+                                >
+                                <span class="range-value" id="mainFontSizeValue">72</span>px
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Main Title Color</label>
+                            <div class="color-picker-wrapper">
+                                <input 
+                                    type="color" 
+                                    id="mainTextColor" 
+                                    value="#FFFFFF" 
+                                    class="color-picker"
+                                    disabled
+                                >
+                                <span class="color-value" id="mainTextColorValue">#FFFFFF</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Tagline Color</label>
+                            <div class="color-picker-wrapper">
+                                <input 
+                                    type="color" 
+                                    id="taglineColor" 
+                                    value="#FF6B35" 
+                                    class="color-picker"
+                                    disabled
+                                >
+                                <span class="color-value" id="taglineColorValue">#FF6B35</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Accent Color</label>
+                            <div class="color-picker-wrapper">
+                                <input 
+                                    type="color" 
+                                    id="accentColor" 
+                                    value="#FFC300" 
+                                    class="color-picker"
+                                    disabled
+                                >
+                                <span class="color-value" id="accentColorValue">#FFC300</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Background Primary</label>
+                            <div class="color-picker-wrapper">
+                                <input 
+                                    type="color" 
+                                    id="bgColor1" 
+                                    value="#C41E3A" 
+                                    class="color-picker"
+                                    disabled
+                                >
+                                <span class="color-value" id="bgColor1Value">#C41E3A</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Background Secondary</label>
+                            <div class="color-picker-wrapper">
+                                <input 
+                                    type="color" 
+                                    id="bgColor2" 
+                                    value="#2C1810" 
+                                    class="color-picker"
+                                    disabled
+                                >
+                                <span class="color-value" id="bgColor2Value">#2C1810</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="control-section">
+                        <h3 class="section-title">
+                            <span class="section-icon">⚙️</span>
+                            Quick Actions
+                        </h3>
+                        <button class="btn btn-secondary btn-full" id="saveDesignBtn">💾 Save Design</button>
+                    </div>
+
+                </div>
+            </aside>
+
+            <!-- Main Canvas Area -->
+            <main class="workspace">
+                <div class="canvas-wrapper">
+                    <div class="canvas-container">
+                        <canvas id="signboardCanvas" width="800" height="600"></canvas>
+                    </div>
+                    <div class="canvas-info">
+                        <p><strong>Resolution:</strong> 800 × 600px | <strong>DPI:</strong> 2x Scale Export</p>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toastNotification" class="toast-notification"></div>
+
+    <!-- HTML2Canvas Library for Export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <!-- Application Scripts -->
+    <script src="{{ url_for('static', filename='editor.js') }}"></script>
+</body>
+</html>
